@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taskapp/presentation/widget/text_widegt.dart';
+import 'package:taskapp/presentation/widget/text_widget.dart';
 
 class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppbarWidget({super.key, required this.appbarTile});

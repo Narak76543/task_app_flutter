@@ -1,25 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:taskapp/database/app_database.dart';
+import 'package:get/get.dart';
+import 'package:taskapp/data/repo/repository.dart';
+import 'package:taskapp/data/source/data_source.dart';
 import 'package:taskapp/presentation/main_screen.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  _init();
-  runApp(const MyApp());
+import 'data/repo/repository_implement.dart';
+import 'database/app_database.dart';
+
+class InitialBinding extends Bindings {
+  @override
+  Future<void> dependencies() async {
+    final appDatabase = AppDatabase.instance;
+    Get.put<AppDatabase>(appDatabase, permanent: true);
+
+    Get.lazyPut<DataSource>(() => DataSource(Get.find()));
+    Get.lazyPut<Repository>(() => RepositoryImpl(Get.find()));
+  }
 }
-Future <void> _init() async {
-  await AppDatabase.instance.db;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await InitialBinding().dependencies();
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      home: const MainScreen(),
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MainScreen(),
     );
   }
 }

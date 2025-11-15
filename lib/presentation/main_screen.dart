@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:taskapp/presentation/home/category_screen.dart';
+import 'package:taskapp/presentation/category/category_screen.dart';
 import 'package:taskapp/presentation/home/home_screen.dart';
 import 'package:taskapp/presentation/home/setting_screen.dart';
 import 'package:taskapp/presentation/home/user_screen.dart';
