@@ -4,6 +4,7 @@ import 'package:taskapp/presentation/home/category_screen.dart';
 import 'package:taskapp/presentation/home/home_screen.dart';
 import 'package:taskapp/presentation/home/setting_screen.dart';
 import 'package:taskapp/presentation/home/user_screen.dart';
+import 'package:taskapp/presentation/widget/appbar_widget.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -18,21 +19,21 @@ class _MainScreenState extends State<MainScreen> {
   final String settingIcon = "assets/icons/setting.png";
   final String userIcon = "assets/icons/user.png";
 
-  final List<Widget> _screens =[
+  final List<Widget> _screens = [
     HomeScreen(),
     CategoryScreen(),
     SettingScreen(),
-    UserScreen()
+    UserScreen(),
   ];
 
   final List<Color> _bgColor = [
     ?Colors.blue[200],
     ?Colors.green[200],
     ?Colors.cyan[200],
-    ?Colors.yellow[200]
+    ?Colors.yellow[200],
   ];
 
-  int _selectedIndex= 0 ;
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +41,14 @@ class _MainScreenState extends State<MainScreen> {
       SystemUiOverlayStyle(
         systemNavigationBarColor: Color(0xFFE8EEFF),
         systemNavigationBarIconBrightness: Brightness.dark,
-      )
+      ),
     );
     return Scaffold(
       backgroundColor: _bgColor[_selectedIndex],
-      appBar: AppBar(backgroundColor: _bgColor[_selectedIndex], title: Text("TaskApp")),
+      appBar: AppbarWidget(appbarTile: 'Task App'),
+
       body: _screens[_selectedIndex],
+
       bottomNavigationBar: SafeArea(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -71,13 +74,25 @@ class _MainScreenState extends State<MainScreen> {
               showUnselectedLabels: false,
 
               items: [
-                BottomNavigationBarItem(icon: Image.asset(homeIcon, height: 30), label: "Home"),
-                BottomNavigationBarItem(icon: Image.asset(categoryIcon, height: 30), label: "Home"),
-                BottomNavigationBarItem(icon: Image.asset(settingIcon, height: 30), label: "Home"),
-                BottomNavigationBarItem(icon: Image.asset(userIcon, height: 30), label: "Home"),
+                BottomNavigationBarItem(
+                  icon: Image.asset(homeIcon, height: 30),
+                  label: "Home",
+                ),
+                BottomNavigationBarItem(
+                  icon: Image.asset(categoryIcon, height: 30),
+                  label: "Home",
+                ),
+                BottomNavigationBarItem(
+                  icon: Image.asset(settingIcon, height: 30),
+                  label: "Home",
+                ),
+                BottomNavigationBarItem(
+                  icon: Image.asset(userIcon, height: 30),
+                  label: "Home",
+                ),
               ],
               currentIndex: _selectedIndex,
-              onTap: (index){
+              onTap: (index) {
                 setState(() {
                   _selectedIndex = index;
                 });
