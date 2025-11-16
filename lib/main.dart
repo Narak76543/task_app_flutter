@@ -10,9 +10,9 @@ import 'database/app_database.dart';
 class InitialBinding extends Bindings {
   @override
   Future<void> dependencies() async {
+
     final appDatabase = AppDatabase.instance;
     Get.put<AppDatabase>(appDatabase, permanent: true);
-
     Get.lazyPut<DataSource>(() => DataSource(Get.find()));
     Get.lazyPut<Repository>(() => RepositoryImpl(Get.find()));
   }

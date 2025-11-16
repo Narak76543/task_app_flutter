@@ -22,16 +22,29 @@ class _CategoryScreenState extends State<CategoryScreen> {
   final DateTime _dateTime = DateTime.now();
 
   @override
+  void initState() {
+    _controller.getAllCategory();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.green[200],
-      body: Column(
-        children: [
-          SizedBox(height: space),
-          BoxWidget(),
-          BoxWidget(),
-          BoxWidget(),
-        ],
+      body: GetBuilder<CategoryController>(
+        init: _controller,
+        initState: (state) => _controller.getAllCategory(),
+        builder: (controller) {
+          return ListView.builder(
+            itemCount: _controller.categories.length,
+            itemBuilder: (context, index) {
+              final record = _controller.categories[index];
+              return BoxWidget(
+                text: record.title,
+                dateTime: record.dateTime,
+              );
+            },);
+        },
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: kBlueColor,
@@ -39,48 +52,54 @@ class _CategoryScreenState extends State<CategoryScreen> {
           showDialog(
             context: context,
             builder: (context) {
-              return AlertDialog(
-                backgroundColor: kWhiteColor,
-                shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: kBlueColor, width: 2),
-                  borderRadius: BorderRadius.circular(radius),
-                ),
-                title: TextWidget.textWidget(
-                  text: "Add New Category name ",
-                  fontSize: 21,
-                  color: kBlueColor,
-                  fontWeight: FontWeight.bold,
-                ),
-                content: TextField(
-                  controller: _categoryController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(color: kGreyColor),
-                      borderRadius: BorderRadius.circular(radius),
-                    ),
-                    hintText: "enter category name",
-                    hintStyle: GoogleFonts.poppins(color: kGreyColor),
-                  ),
-                ),
-                actions: [
-                  ButtonWidget(
-                    onPressed: () {
-                      _controller.addCategory(_categoryController.text, _dateTime.toString());
-                      print("======================${_categoryController.text}");
-                      print("===============${_dateTime}");
-                    },
-                    bdRadius: radius,
-                    width: double.infinity,
-                    text: "Add",
-                  ),
-                ],
-              );
+              return _openAppCategory();
             },
           );
         },
         shape: CircleBorder(),
         child: Icon(Icons.add, color: kWhiteColor, size: 35),
       ),
+    );
+  }
+
+  AlertDialog _openAppCategory() {
+    return AlertDialog(
+      backgroundColor: kWhiteColor,
+      shape: RoundedRectangleBorder(
+        side: const BorderSide(color: kBlueColor, width: 2),
+        borderRadius: BorderRadius.circular(radius),
+      ),
+      title: TextWidget.textWidget(
+        text: "Add Category",///////////////////////////
+        fontSize: 21,
+        color: kBlueColor,
+        fontWeight: FontWeight.bold,
+      ),
+      content: TextField(
+        controller: _categoryController,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderSide: const BorderSide(color: kGreyColor),
+            borderRadius: BorderRadius.circular(radius),
+          ),
+          hintText: "enter category name",
+          hintStyle: GoogleFonts.poppins(color: kGreyColor),
+        ),
+      ),
+      actions: [
+        ButtonWidget(
+          onPressed: () {
+            Navigator.of(context).pop();
+            _controller.addCategory(
+                _categoryController.text, _dateTime.toString());
+            print("======================${_categoryController.text}");
+            print("===============${_dateTime}");
+          },
+          bdRadius: radius,
+          width: double.infinity,
+          text: "Add",
+        ),
+      ],
     );
   }
 }

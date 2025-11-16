@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:taskapp/presentation/widget/divider_widget.dart';
 import 'package:taskapp/presentation/widget/text_widget.dart';
+import 'package:taskapp/utils/helper.dart';
 
 import '../../core/constance.dart';
 import '../../core/space.dart';
 
 class BoxWidget extends StatelessWidget {
-  const BoxWidget({super.key});
+  const BoxWidget({super.key, required this.text, required this.dateTime});
+  final String text ;
+  final String dateTime ;
+
   final String checkList = "assets/icons/checklist.png";
 
   @override
@@ -36,7 +40,7 @@ class BoxWidget extends StatelessWidget {
               children: [
                 IconButton(onPressed: (){}, icon: Image.asset(checkList,height: 25, color: kBlueColor)),
                 TextWidget.textWidget(
-                  text: "Complete all task ",
+                  text: text,
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
@@ -54,7 +58,7 @@ class BoxWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextWidget.textWidget(text: "Date Time :",fontWeight: FontWeight.w400),
-                TextWidget.textWidget(text: "15 11 2025" , fontWeight: FontWeight.bold)
+                TextWidget.textWidget(text: convertToDate(dateTime), fontWeight: FontWeight.bold)
               ],
             ),
           )

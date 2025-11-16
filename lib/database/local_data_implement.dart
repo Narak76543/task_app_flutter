@@ -20,4 +20,10 @@ class LocalDataImplement extends LocalData {
       throw Exception('failed to add Category : $e');
     }
   }
+
+  @override
+  Future<List<CategoryModel>> getAllCategory() {
+    // TODO: implement GetAllCategory
+    throw UnimplementedError();
+  }
 }

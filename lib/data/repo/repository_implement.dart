@@ -1,5 +1,3 @@
-// lib/data/repo/repository_impl.dart
-
 import 'package:taskapp/data/model/category_model.dart';
 import 'package:taskapp/data/repo/repository.dart';
 import 'package:taskapp/data/source/data_source.dart'; // We will create this next
@@ -15,5 +13,14 @@ class RepositoryImpl implements Repository {
   Future<void> addCategory(CategoryModel category) {
     // The repository delegates the actual work to the data source.
     return _dataSource.addCategory(category);
+  }
+
+  @override
+  Future<List<CategoryModel>> getAllCategory()  async{
+    try {
+      return await _dataSource.getAllCategory();
+    } catch (e) {
+      throw Exception('failed to get all Category : $e');
+    }
   }
 }

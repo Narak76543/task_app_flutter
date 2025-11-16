@@ -8,7 +8,6 @@ class CategoryController extends GetxController {
   late final Repository _repository;
   final RxList<CategoryModel> categories = <CategoryModel>[].obs;
 
-  /// Optional injection for tests; otherwise resolves with Get.find
   CategoryController({Repository? repository}) {
     if (repository != null) {
       _repository = repository;
@@ -20,7 +19,7 @@ class CategoryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // optionally load existing categories here if repository provides a read method
+    getAllCategory();
   }
 
   /// Adds a category. Returns `true` on success, `false` on failure.
@@ -39,7 +38,7 @@ class CategoryController extends GetxController {
     try {
       final model = CategoryModel(title: trimmed, dateTime: dateTime);
       await _repository.addCategory(model);
-      categories.add(model);
+      categories.add(model); // RxList will notify Obx; call update() if using GetBuilder
       update();
       return true;
     } catch (e) {
@@ -49,8 +48,22 @@ class CategoryController extends GetxController {
         backgroundColor: Colors.redAccent,
         colorText: Colors.white,
       );
-      // Optionally log `e` somewhere
       return false;
+    }
+  }
+
+  Future<void> getAllCategory() async {
+    try {
+      final result = await _repository.getAllCategory();
+      categories.assignAll(result ?? <CategoryModel>[]); // replace content atomically
+      update(); // keep for GetBuilder; safe even with Obx
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to fetch categories',
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
     }
   }
 }

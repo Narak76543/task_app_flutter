@@ -20,12 +20,19 @@ class DataSource {
     // Insert the category into the database
     await db.insert(
       CategoryModel.tableName, // Use the table name from the model
-      {
-        'title': category.title,
-        'dateTime': category.dateTime,
-      },
+      {'title': category.title, 'dateTime': category.dateTime},
       conflictAlgorithm: ConflictAlgorithm.replace, // Handle conflicts
     );
+  }
+
+  Future<List<CategoryModel>> getAllCategory() async {
+    try {
+      final db = await AppDatabase.instance.db;
+      final result = await db.query(CategoryModel.tableName);
+      return result.map((e) => CategoryModel.fromJson(e)).toList();
+    } catch (e) {
+      throw Exception('failed to add Category : $e');
+    }
   }
 
   // You would add other methods here, for example:
