@@ -38,7 +38,7 @@ class CategoryController extends GetxController {
     try {
       final model = CategoryModel(title: trimmed, dateTime: dateTime);
       await _repository.addCategory(model);
-      categories.add(model); // RxList will notify Obx; call update() if using GetBuilder
+      categories.add(model);
       update();
       return true;
     } catch (e) {
@@ -55,8 +55,8 @@ class CategoryController extends GetxController {
   Future<void> getAllCategory() async {
     try {
       final result = await _repository.getAllCategory();
-      categories.assignAll(result ?? <CategoryModel>[]); // replace content atomically
-      update(); // keep for GetBuilder; safe even with Obx
+      categories.assignAll(result ?? <CategoryModel>[]);
+      update();
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -66,4 +66,15 @@ class CategoryController extends GetxController {
       );
     }
   }
+  Future<void> deleteCategory({required String id}) async {
+    try {
+      await _repository.deleteCategory(id: id);
+      categories.removeWhere((element) => element.id == id);
+      update();
+    }
+    catch(e){
+      throw Exception('failed to delete Category : $e');
+    }
+  }
+
 }

@@ -60,6 +60,5 @@ class AddCategoryDialog extends StatelessWidget {
         ),
       ],
     );
-    ;
   }
 }

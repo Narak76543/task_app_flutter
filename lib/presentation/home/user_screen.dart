@@ -15,6 +15,6 @@ class _UserScreenState extends State<UserScreen> {
       body: Center(
         child: Text("User Screen", style: TextStyle( fontSize: 30),),
       ),
-    );;
+    );
   }
 }

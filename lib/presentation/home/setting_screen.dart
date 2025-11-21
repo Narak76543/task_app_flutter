@@ -15,6 +15,6 @@ class _SettingScreenState extends State<SettingScreen> {
       body: Center(
         child: Text("Setting Screen", style: TextStyle( fontSize: 30),),
       ),
-    );;
+    );
   }
 }

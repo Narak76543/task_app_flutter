@@ -6,6 +6,8 @@ import 'package:taskapp/presentation/home/setting_screen.dart';
 import 'package:taskapp/presentation/home/user_screen.dart';
 import 'package:taskapp/presentation/widget/appbar_widget.dart';
 
+import '../core/constance.dart';
+
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -53,7 +55,7 @@ class _MainScreenState extends State<MainScreen> {
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: kWhiteColor,
             borderRadius: BorderRadius.circular(35),
             boxShadow: [
               BoxShadow(
@@ -66,7 +68,7 @@ class _MainScreenState extends State<MainScreen> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(35),
             child: BottomNavigationBar(
-              backgroundColor: Colors.white,
+              backgroundColor: kWhiteColor,
               type: BottomNavigationBarType.fixed,
 
               // hide all labels

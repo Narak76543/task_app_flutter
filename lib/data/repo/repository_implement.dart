@@ -1,17 +1,14 @@
 import 'package:taskapp/data/model/category_model.dart';
 import 'package:taskapp/data/repo/repository.dart';
-import 'package:taskapp/data/source/data_source.dart'; // We will create this next
+import 'package:taskapp/data/source/data_source.dart';
 
-// This is the concrete implementation of our Repository contract.
 class RepositoryImpl implements Repository {
   final DataSource _dataSource;
 
-  // We ask for a DataSource when this class is created.
   RepositoryImpl(this._dataSource);
 
   @override
   Future<void> addCategory(CategoryModel category) {
-    // The repository delegates the actual work to the data source.
     return _dataSource.addCategory(category);
   }
 
@@ -19,6 +16,15 @@ class RepositoryImpl implements Repository {
   Future<List<CategoryModel>> getAllCategory()  async{
     try {
       return await _dataSource.getAllCategory();
+    } catch (e) {
+      throw Exception('failed to get all Category : $e');
+    }
+  }
+
+  @override
+  Future<void> deleteCategory({required String id}) async {
+    try {
+      return await _dataSource.deleteCategory(id: id);
     } catch (e) {
       throw Exception('failed to get all Category : $e');
     }

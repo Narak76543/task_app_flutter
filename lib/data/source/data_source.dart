@@ -1,27 +1,23 @@
-// lib/data/source/data_source.dart
 
 import 'package:sqflite/sqflite.dart';
 import 'package:taskapp/data/model/category_model.dart';
-import '../../database/app_database.dart'; // This line points to your AppDatabase
+import '../../database/app_database.dart';
 
-// This class is the ONLY one that talks directly to the database.
+// talks directly to the database.
 class DataSource {
-  // It holds an instance of your AppDatabase.
+  // holds an instance of  AppDatabase.
   final AppDatabase database;
-
-  // It requires the database to be provided when it's created.
   DataSource(this.database);
-
-  // This method will be called by your RepositoryImpl.
+  // called by RepositoryImpl.
   Future<void> addCategory(CategoryModel category) async {
-    // Get the database instance
+    // Get the database
     final db = await database.db;
 
-    // Insert the category into the database
+    // Insert
     await db.insert(
-      CategoryModel.tableName, // Use the table name from the model
+      CategoryModel.tableName,
       {'title': category.title, 'dateTime': category.dateTime},
-      conflictAlgorithm: ConflictAlgorithm.replace, // Handle conflicts
+      conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
@@ -35,9 +31,21 @@ class DataSource {
     }
   }
 
-  // You would add other methods here, for example:
-  // Future<List<CategoryModel>> getAllCategories() async {
-  //   final dao = database.categoryDao;
-  //   return await dao.getAllCategories();
-  // }
+  Future<void> deleteCategory({required String id}) async {
+    try {
+      final db = await AppDatabase.instance.db;
+      final count = await db.delete(
+        CategoryModel.tableName,
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+
+      if (count == 0) {
+        print('Warning: Category with id $id not found for deletion.');
+      }
+    } catch (e) {
+      throw Exception('Failed to delete category: $e');
+    }
+  }
+
 }

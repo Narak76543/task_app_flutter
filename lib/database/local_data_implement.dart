@@ -26,4 +26,19 @@ class LocalDataImplement extends LocalData {
     // TODO: implement GetAllCategory
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> deleteCategory({required String id}) async {
+    try {
+      final db = await AppDatabase.instance.db;
+      await db.delete(
+        CategoryModel.tableName,
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+    }
+    catch (e) {
+      throw Exception('failed to delete Category : $e');
+    }
+  }  // TODO: implement deleteCategory
 }
